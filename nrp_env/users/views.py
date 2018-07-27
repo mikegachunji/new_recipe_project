@@ -10,7 +10,7 @@ from sqlalchemy.exc import IntegrityError
 from flask_login import login_user, current_user, login_required, logout_user
 from nrp_env.users.forms import RegisterForm, LoginForm 
 from nrp_env.models import User
-from nrp_env import db, app
+from nrp_env import db, app, bcrypt
  
 ################
 #### config ####
@@ -29,7 +29,8 @@ def register():
     if request.method == 'POST':
         if form.validate_on_submit():
             try:
-                new_user = User(form.email.data, form.password.data)
+                hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+                new_user = User(form.email.data, hashed_password)
                 new_user.authenticated = True
                 db.session.add(new_user)
                 db.session.commit()
