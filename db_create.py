@@ -16,8 +16,6 @@ db.session.add(recipe1)
 db.session.add(recipe2)
 db.session.add(recipe3)
  
-# commit the changes
-db.session.commit()
 
 # insert user data
 user1 = User('mikegachunji@yahoo.com', 'mikegachunji')
@@ -27,5 +25,9 @@ db.session.add(user1)
 db.session.add(user2)
 db.session.add(user3)
 
-# commit the changes for the recipes
+
+admin_user = User(email='mikegachunji@gmail.com', plaintext_password='awesomeness', role='admin')
+db.session.add(admin_user)
+
 db.session.commit()
+
