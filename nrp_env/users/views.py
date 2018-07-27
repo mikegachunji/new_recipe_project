@@ -8,9 +8,11 @@
 from flask import render_template, Blueprint, request, redirect, url_for, flash, abort
 from sqlalchemy.exc import IntegrityError
 from flask_login import login_user, current_user, login_required, logout_user
+from flask_mail import Message
+from threading import Thread
 from nrp_env.users.forms import RegisterForm, LoginForm 
 from nrp_env.models import User
-from nrp_env import db, app, bcrypt
+from nrp_env import db, app, bcrypt, mail
  
 ################
 #### config ####
@@ -18,6 +20,19 @@ from nrp_env import db, app, bcrypt
  
 users_blueprint = Blueprint('users', __name__)
  
+
+
+def send_async_email(msg):
+    with app.app_context():
+        mail.send(msg)
+ 
+ 
+def send_email(subject, recipients, text_body, html_body):
+    msg = Message(subject, recipients=recipients)
+    msg.body = text_body
+    msg.html = html_body
+    thr = Thread(target=send_async_email, args=[msg])
+    thr.start()
  
 ################
 #### routes ####
@@ -34,6 +49,10 @@ def register():
                 new_user.authenticated = True
                 db.session.add(new_user)
                 db.session.commit()
+                send_email('Registration',
+                           ['mikegachunji@gmail.com'],
+                           'Thanks for registering with Kennedy Family Recipes!',
+                           '<h3>Thanks for registering with Kennedy Family Recipes!</h3>')
                 flash('Thanks for registering!', 'success')
                 return redirect(url_for('recipes.index'))
             except IntegrityError:
@@ -52,7 +71,7 @@ def login():
                 db.session.add(user)
                 db.session.commit()
                 login_user(user)
-                flash('Thanks for logging in, ({})'.format(current_user.email))
+                flash('Thanks for logging in, {}'.format(current_user.email))
                 return redirect(url_for('recipes.index'))
             else:
                 flash('ERROR! Incorrect login credentials.', 'error')
