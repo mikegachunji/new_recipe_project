@@ -43,9 +43,11 @@
           
         </ul>
         <ul class="navbar-nav navbar-right">
-          <li class="nav-item">
-            <a class="nav-link" href="#">Welcome!</a>
-          </li>
+            {% if current_user.is_authenticated %}
+    <li><a href="{{ url_for('users.user_profile') }}">{{current_user.email}}</a></li>
+  {% else %}
+    <li><a href="#">Welcome!</a></li>
+  {% endif %}
         </ul>
           
       </div>
