@@ -10,7 +10,7 @@ from nrp_env.models import Recipe
 #### config ####
 ################
  
-recipes_blueprint = Blueprint('recipes', __name__, template_folder='templates')
+recipes_blueprint = Blueprint('recipes', __name__)
  
  
 ################
