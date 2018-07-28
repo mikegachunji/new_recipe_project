@@ -15,14 +15,19 @@
   <body>   
     
     <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top">
-      <a class="navbar-brand" href="#">Ndathe Family Recipes</a>
+      <a class="navbar-brand" href="{{ url_for('recipes.public_recipes') }}">Ndathe Family Recipes</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
+      
 
       <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
           {% if current_user.is_authenticated %}
+          
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('recipes.user_recipes') }}">My Recipes</a>
+          </li>
           <li class="nav-item">
             <a class="nav-link" href="{{ url_for('recipes.index') }}">Public Recipes</a>
           </li>
@@ -33,7 +38,9 @@
             <a class="nav-link" href="{{ url_for('users.logout') }}">Log Out</a>
           </li>
           {% if current_user.role == "admin" %}
-          <li><a href="{{ url_for('users.admin_view_users') }}">View Users (Admin)</a></li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('users.admin_view_users') }}">View Users (Admin)</a>
+          </li>          
           {% endif %}
           {% else %}
           <li class="nav-item">
