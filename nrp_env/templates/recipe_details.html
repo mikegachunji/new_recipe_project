@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+{% block content %}
+ 
+<div class="user-profile">
+  <div class="page-header">
+    <h2>{{ recipe.Recipe.recipe_title }}</h2>
+  </div>
+ 
+  <div class="row">
+    <div class="card panel-primary">
+      <div class="card-header">Description</div>
+      <div class="card-body">{{ recipe.Recipe.recipe_description }}</div>
+    </div>
+ 
+    <div class="card panel-primary">
+      <div class="card-header">Public or Private</div>
+      {% if recipe.Recipe.is_public %}
+        <div class="card-body">Public</div>
+      {% else %}
+        <div class="card-body">Private</div>
+      {% endif %}
+    </div>
+ 
+    <div class="card panel-primary">
+      <div class="card-header">User</div>
+      <div class="card-body">{{ recipe.User.email }}</div>
+    </div>
+ 
+  </div>
+</div>`
+ 
+{% endblock %}

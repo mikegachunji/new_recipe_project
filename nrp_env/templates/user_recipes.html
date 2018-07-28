@@ -3,7 +3,7 @@
  
 <div class="user-profile">
   <div class="page-header">
-    <h2>Public Recipes</h2>
+    <h2>User Recipes</h2>
   </div>
  
   <table class="table table-striped" id="owned_stock_table">
@@ -14,7 +14,7 @@
       </tr>
     </thead>
     <tbody>
-      {% for recipe in public_recipes %}
+      {% for recipe in user_recipes %}
       <tr>
         <td><a href="{{ url_for('recipes.recipe_details', recipe_id=recipe.id) }}">{{ recipe.recipe_title }}</a></td>
         <td>{{ recipe.recipe_description }}</td>
